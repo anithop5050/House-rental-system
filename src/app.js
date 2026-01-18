@@ -113,6 +113,28 @@ app.get('/seed-database-secret-xyz123', async (req, res) => {
     res.send(`<h1>Error</h1><p>${e.message}</p>`);
   }
 });
+
+// Cleanup endpoint - removes ads with images that don't exist in the repo
+app.get('/cleanup-broken-ads-xyz123', async (req, res) => {
+  try {
+    const validImages = ["house1.jpg", "house2.jpg", "house3.jpg", "house4.jpg", "house5.jpg", "house6.jpg", "ekm1.jpg", "klm1.jpg", "khm3.jpg", "tvm3.jpg", "238870.jpg", "435117.jpg", "PXL_20230527_131511305.jpg", "kerala-homes-interior-design-images-1366x768.webp", "p1.jpg", "tvm3.jpg"];
+
+    const allAds = await Ads.find({});
+    let deletedCount = 0;
+
+    for (const ad of allAds) {
+      if (ad.image && !validImages.includes(ad.image)) {
+        await Ads.deleteOne({ _id: ad._id });
+        deletedCount++;
+      }
+    }
+
+    res.send(`<h1>Cleanup Complete!</h1><p>Removed ${deletedCount} ads with broken images.</p><p><a href="/search1.html">Go to Rentals</a></p>`);
+  } catch (e) {
+    res.send(`<h1>Error</h1><p>${e.message}</p>`);
+  }
+});
+
 app.listen(port, () => {
   console.log(`server is now  running http://localhost:${port}`);
 })
