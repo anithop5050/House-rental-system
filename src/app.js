@@ -97,10 +97,11 @@ app.get('/seed-database-secret-xyz123', async (req, res) => {
           location: loc,
           price: Math.floor(15000 + (Math.random() * 10000)),
           image: randomImage,
-          user: randomUser._id,
-          status: "approved",
+          user: randomUser._id.toString(),
+          status: 1,
           bedrooms: i + 2,
           bathrooms: i + 1,
+          floors: i + 1,
           squareFeet: 1200 + (i * 200)
         });
       }
