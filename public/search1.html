@@ -110,20 +110,20 @@
             }
         });
 
-        xhr.open("GET", "http://localhost:3000/view/rental");
+        xhr.open("GET", "/view/rental");
         xhr.send(null);
         function RequestHouse(id, user) {
-            location.href = 'requestform.html?id='+id+"&owner="+user
+            location.href = 'requestform.html?id=' + id + "&owner=" + user
         }
         document.getElementById('location').onchange = (e) => {
             FilterAds(e.target.value)
         }
-        function FilterAds(loc){
+        function FilterAds(loc) {
             let filterData;
-            if(!loc) filterData = AllHouses;
-            else filterData = AllHouses.filter(ad=>ad.location==loc);
+            if (!loc) filterData = AllHouses;
+            else filterData = AllHouses.filter(ad => ad.location == loc);
             Target.innerHTML = '';
-            filterData.forEach(item=>{
+            filterData.forEach(item => {
                 Target.innerHTML += `<div class="box"><a href="/addview.html?id=${item._id}"><img src="/drive/image/${item.image}" alt="${item.image}"></a><button type="button" class="reqbtn" onclick="RequestHouse('${item._id}', '${item.user}')">Request</button><h3>₹${item.price}</h3><div class="content"><div class="text"><h4>${item.title}</h4><span>${item.location}</span> | <span>${item.squareFeet} sqrt</span></div><div class="icon"><i class='bx bx-bed'><span>${item.bedrooms}</span></i><i class='bx bx-bath'><span>${item.bathrooms}</span></i></div></div></div>`;
             })
         }

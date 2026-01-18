@@ -64,7 +64,7 @@
             }
         });
 
-        xhr.open("GET", "http://localhost:3000/view/rental");
+        xhr.open("GET", "/view/rental");
         xhr.send(null);
         function DeteleAd(id) {
             const xhr2 = new XMLHttpRequest();
@@ -80,7 +80,7 @@
                     }
                 }
             });
-            xhr2.open("POST", "http://localhost:3000/delete/userrental");
+            xhr2.open("POST", "/delete/userrental");
             xhr2.setRequestHeader("Accept", "*/*");
             xhr2.setRequestHeader("Content-Type", "application/json");
             xhr2.send(JSON.stringify({ "id": id }));

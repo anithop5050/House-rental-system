@@ -125,7 +125,7 @@
                 }
             }
         });
-        xhr.open("GET", "http://localhost:3000/view/userrental/?id=" + localStorage.Id);
+        xhr.open("GET", "/view/userrental/?id=" + localStorage.Id);
         xhr.setRequestHeader("Accept", "*/*");
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(null);
@@ -143,7 +143,7 @@
                     }
                 }
             });
-            xhr2.open("POST", "http://localhost:3000/delete/userrental");
+            xhr2.open("POST", "/delete/userrental");
             xhr2.setRequestHeader("Accept", "*/*");
             xhr2.setRequestHeader("Content-Type", "application/json");
             xhr2.send(JSON.stringify({ "id": id }));

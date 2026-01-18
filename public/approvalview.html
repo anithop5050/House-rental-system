@@ -66,16 +66,16 @@
                 if (response.status == 200) {
                     response.data.forEach((item) => {
                         let Action;
-                        if(item.Request.Status == "Pending") Action = `<button style="float: right;" type="button" onclick="ApproveRequest('${item.Id}','${item.Requester.id}')">Approve</button>`
+                        if (item.Request.Status == "Pending") Action = `<button style="float: right;" type="button" onclick="ApproveRequest('${item.Id}','${item.Requester.id}')">Approve</button>`
                         else Action = `<button style="float: right;" type="button" onclick="RevokeRequest('${item.Id}')">Revoke</button>`
-                        Target.innerHTML += `<div class="complaint"><p><strong>House Name:</strong> ${item.House.title}</p><p><strong>Description:</strong> ${item.House.description}</p><p><strong>Price:</strong> ${item.House.price} per month</p><p><strong>Location:</strong> ${item.House.location}</p><p><strong>Features:</strong> ${item.House.floors} floor ${item.House.squareFeet} square feet House with ${item.House.bedrooms} bedrooms & ${item.House.bathrooms} bathrooms</p><hr><p><strong>Requester Name:</strong> ${item.Requester.name}</p><p><strong>Contact No:</strong> ${item.Requester.number}</p><hr><p><strong>Your Job Status:</strong> ${item.Request.JobStatus}</p><p><strong>Your Life Status:</strong> ${item.Request.LifeStatus}</p><p><strong>Members:</strong> ${item.Request.Members}</p><p><strong>Car Parking:</strong> ${item.Request.CarParking?"Yes":"No"}</p><p><strong>Status:</strong> ${item.Request.Status}</p>${Action}</div>`
+                        Target.innerHTML += `<div class="complaint"><p><strong>House Name:</strong> ${item.House.title}</p><p><strong>Description:</strong> ${item.House.description}</p><p><strong>Price:</strong> ${item.House.price} per month</p><p><strong>Location:</strong> ${item.House.location}</p><p><strong>Features:</strong> ${item.House.floors} floor ${item.House.squareFeet} square feet House with ${item.House.bedrooms} bedrooms & ${item.House.bathrooms} bathrooms</p><hr><p><strong>Requester Name:</strong> ${item.Requester.name}</p><p><strong>Contact No:</strong> ${item.Requester.number}</p><hr><p><strong>Your Job Status:</strong> ${item.Request.JobStatus}</p><p><strong>Your Life Status:</strong> ${item.Request.LifeStatus}</p><p><strong>Members:</strong> ${item.Request.Members}</p><p><strong>Car Parking:</strong> ${item.Request.CarParking ? "Yes" : "No"}</p><p><strong>Status:</strong> ${item.Request.Status}</p>${Action}</div>`
                     })
-                    if(!response.data[0]) Target.innerHTML = `<div class="complaint"><p>No pending approvals found</p></div>`
+                    if (!response.data[0]) Target.innerHTML = `<div class="complaint"><p>No pending approvals found</p></div>`
                 }
             }
         });
 
-        xhr.open("GET", "http://localhost:3000/view/ownerrequest/?id=" + localStorage.Id);
+        xhr.open("GET", "/view/ownerrequest/?id=" + localStorage.Id);
         xhr.send(null);
         function ApproveRequest(id, user) {
             if (confirm('Are you sure to approve this request?')) {
@@ -92,10 +92,10 @@
                     }
                 });
 
-                xhr2.open("POST", "http://localhost:3000/approve/request/?id=" + id);
+                xhr2.open("POST", "/approve/request/?id=" + id);
                 xhr2.setRequestHeader("Accept", "*/*");
                 xhr2.setRequestHeader("Content-Type", "application/json");
-                const data = JSON.stringify({"user":user});
+                const data = JSON.stringify({ "user": user });
                 xhr2.send(data);
             }
         }
@@ -114,7 +114,7 @@
                     }
                 });
 
-                xhr2.open("POST", "http://localhost:3000/revoke/request/?id=" + id);
+                xhr2.open("POST", "/revoke/request/?id=" + id);
                 xhr2.setRequestHeader("Accept", "*/*");
                 xhr2.setRequestHeader("Content-Type", "application/json");
                 xhr2.send(null);

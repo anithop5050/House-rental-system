@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,9 +9,9 @@
     <!-- LInk To CSS -->
     <link rel="stylesheet" href="css/style.css">
     <!-- Box Icons -->
-    <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 </head>
+
 <body>
     <!-- Navbar -->
     <header>
@@ -22,7 +23,7 @@
     </header>
     <!-- Log In -->
     <div class="login container">
-        <div class="login-container"> 
+        <div class="login-container">
             <h2>ADMIN LOGIN</h2>
             <!-- Login Form -->
             <form id="loginform">
@@ -39,31 +40,31 @@
             <img src="img/login2.jpg" alt="">
         </div>
     </div>
-    
+
     <!-- Footer -->
     <section class="footer">
         <div class="footer-container container">
             <h2>α RENTALS</h2>
             <div class="footer-box">
             </div>
-             <div class="footer-box">
+            <div class="footer-box">
                 <h3>Locations</h3>
                 <a href="http://surl.li/hloqf">Trivandrum</a>
                 <a href="http://surl.li/hlopz">Ernakulam</a>
                 <a href="http://surl.li/hlopb">Kollam</a>
             </div>
-              <div class="footer-box">
+            <div class="footer-box">
                 <h3>Contact</h3>
-                 <a href="tel:9633528256">9633528256</a>
-				 <a href="mailto:alpharent@gmail.com">Send Email</a>
-				 </div>
-
-                            <div class="social">
-                    <a href="https://www.facebook.com/"><i class='bx bxl-facebook' ></i></a>
-                    <a href="https://twitter.com/i/flow/login/"><i class='bx bxl-twitter' ></i></a>
-                    <a href="https://www.instagram.com/"><i class='bx bxl-instagram' ></i></a>
-                </div>
+                <a href="tel:9633528256">9633528256</a>
+                <a href="mailto:alpharent@gmail.com">Send Email</a>
             </div>
+
+            <div class="social">
+                <a href="https://www.facebook.com/"><i class='bx bxl-facebook'></i></a>
+                <a href="https://twitter.com/i/flow/login/"><i class='bx bxl-twitter'></i></a>
+                <a href="https://www.instagram.com/"><i class='bx bxl-instagram'></i></a>
+            </div>
+        </div>
         </div>
     </section>
     <!-- Copyright -->
@@ -73,11 +74,11 @@
     <script>
         const LoginCheck = () => {
             if (localStorage.Status == "loggined") {
-                if(localStorage.Type == 'Admin') window.location = "admin.html";
+                if (localStorage.Type == 'Admin') window.location = "admin.html";
                 else window.location = "usermenu.html";
             }
             return true;
-        } 
+        }
         LoginCheck();
         document.getElementById('loginform').onsubmit = () => {
             event.preventDefault();
@@ -103,7 +104,7 @@
                 }
             });
 
-            xhr.open("POST", "http://localhost:3000/login/admin");
+            xhr.open("POST", "/login/admin");
             xhr.setRequestHeader("Accept", "*/*");
             xhr.setRequestHeader("Content-Type", "application/json");
             let data = { "email": email, "password": password };
@@ -111,6 +112,7 @@
             xhr.send(data);
         }
     </script>
-    
+
 </body>
+
 </html>

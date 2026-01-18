@@ -50,7 +50,7 @@
       </tr>
     </thead>
     <tbody id="userlist">
-      
+
     </tbody>
   </table>
   <script>
@@ -71,13 +71,13 @@
         let response = JSON.parse(this.responseText);
         if (response.status == 200) {
           response.data.forEach((item, index) => {
-            Target.innerHTML += `<tr><td>${index +1}</td><td>${item._id}</td><td>${item.name}</td><td>${item.email}</td></tr>`
+            Target.innerHTML += `<tr><td>${index + 1}</td><td>${item._id}</td><td>${item.name}</td><td>${item.email}</td></tr>`
           })
         }
       }
     });
 
-    xhr.open("GET", "http://localhost:3000/list/users");
+    xhr.open("GET", "/list/users");
     xhr.send(null);
   </script>
 </body>

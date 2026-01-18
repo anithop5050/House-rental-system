@@ -29,7 +29,7 @@
   </style>
 </head>
 
-<body> 
+<body>
   <div class="complaint-view" id="ComplaintList">
     <h2>Complaint Details</h2>
   </div>
@@ -57,7 +57,7 @@
       }
     });
 
-    xhr.open("GET", "http://localhost:3000/view/complaint");
+    xhr.open("GET", "/view/complaint");
     xhr.send(null);
     function AddResponse(id) {
       if (id) {
@@ -71,16 +71,16 @@
                 let response = JSON.parse(this.responseText);
                 if (response.status == 200) {
                   alert("Response updated")
-                }else{
+                } else {
                   alert("Failed to update")
                 }
               }
             });
 
-            xhr2.open("PUT", "http://localhost:3000/update/complaint/?id="+id);
+            xhr2.open("PUT", "/update/complaint/?id=" + id);
             xhr2.setRequestHeader("Accept", "*/*");
             xhr2.setRequestHeader("Content-Type", "application/json");
-            const data = JSON.stringify({"response": response});
+            const data = JSON.stringify({ "response": response });
             xhr2.send(data);
           }
         } else if (response != null) {

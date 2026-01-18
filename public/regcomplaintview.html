@@ -71,7 +71,7 @@
             }
         });
 
-        xhr.open("GET", "http://localhost:3000/view/usercomplaint/?id=" + localStorage.Id);
+        xhr.open("GET", "/view/usercomplaint/?id=" + localStorage.Id);
         xhr.send(null);
         function RemoveComplaint(id) {
             if (confirm('Are you sure to remove this complaint?')) {
@@ -88,7 +88,7 @@
                     }
                 });
 
-                xhr2.open("POST", "http://localhost:3000/delete/complaint/?id=" + id);
+                xhr2.open("POST", "/delete/complaint/?id=" + id);
                 xhr2.setRequestHeader("Accept", "*/*");
                 xhr2.setRequestHeader("Content-Type", "application/json");
                 xhr2.send(null);

@@ -159,35 +159,35 @@
         LoginCheck();
         const urlParams = new URLSearchParams(window.location.search);
         const HouseId = urlParams.get('id');
-        if(!HouseId) window.history.back();
+        if (!HouseId) window.history.back();
         console.log(HouseId);
         const xhr = new XMLHttpRequest();
-            xhr.withCredentials = true;
-            xhr.addEventListener("readystatechange", function () {
-                if (this.readyState === this.DONE) {
-                    let response = JSON.parse(this.responseText);
-                    if (response.status == 200) {
-                        document.getElementById('title').innerHTML = response.data.title;
-                        document.getElementById('price').innerHTML = '$'+response.data.price+'/month';
-                        document.getElementById('desc').innerHTML = response.data.description;
-                        document.getElementById('sqrt').innerHTML = response.data.squareFeet+' sqft';
-                        document.getElementById('floor').innerHTML = response.data.floors;
-                        document.getElementById('room').innerHTML = response.data.bedrooms;
-                        document.getElementById('bath').innerHTML = response.data.bathrooms;
-                        document.getElementById('loc').innerHTML = response.data.location;
-                        document.getElementById('img').src = '/drive/image/'+response.data.image;
-                        document.getElementById('img').alt = response.data.image;
-                    }
-                    else {
-                        window.history.back();
-                    }
+        xhr.withCredentials = true;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                let response = JSON.parse(this.responseText);
+                if (response.status == 200) {
+                    document.getElementById('title').innerHTML = response.data.title;
+                    document.getElementById('price').innerHTML = '$' + response.data.price + '/month';
+                    document.getElementById('desc').innerHTML = response.data.description;
+                    document.getElementById('sqrt').innerHTML = response.data.squareFeet + ' sqft';
+                    document.getElementById('floor').innerHTML = response.data.floors;
+                    document.getElementById('room').innerHTML = response.data.bedrooms;
+                    document.getElementById('bath').innerHTML = response.data.bathrooms;
+                    document.getElementById('loc').innerHTML = response.data.location;
+                    document.getElementById('img').src = '/drive/image/' + response.data.image;
+                    document.getElementById('img').alt = response.data.image;
                 }
-            });
+                else {
+                    window.history.back();
+                }
+            }
+        });
 
-            xhr.open("GET", "http://localhost:3000/view/rentalbyid/?id="+HouseId);
-            xhr.setRequestHeader("Accept", "*/*");
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(null);
+        xhr.open("GET", "/view/rentalbyid/?id=" + HouseId);
+        xhr.setRequestHeader("Accept", "*/*");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(null);
     </script>
 </body>
 

@@ -139,7 +139,7 @@
                 }
             });
 
-            xhr.open("POST", "http://localhost:3000/add/complaint");
+            xhr.open("POST", "/add/complaint");
             xhr.setRequestHeader("Accept", "*/*");
             xhr.setRequestHeader("Content-Type", "application/json");
             const data = JSON.stringify({ 'name': name, 'email': email, 'complaint': complaint, 'user': localStorage.Id, 'subject': subject });
