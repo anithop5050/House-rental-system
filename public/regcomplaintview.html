@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .complaint-view {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .complaint-view h2 {
+            text-align: center;
+        }
+
+        .complaint {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .complaint p {
+            margin: 5px 0;
+        }
+
+        .complaint p strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="nav container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><i class='bx bx-home'></i>ALPHA RENTALS</a>
+
+            <a href="usermenu.html" class="btn">Home</a>
+            <p id="username">Hello User</p>
+        </div>
+
+    </header>
+    <hr><br>
+    <div class="complaint-view" id="ComplaintList">
+        <h2>your Complaint Status</h2>
+    </div>
+    <script>
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                if (localStorage.Type != 'User') window.location = "index.html";
+            } else {
+                window.location = "login.html";
+            }
+            return true;
+        }
+        document.getElementById('username').innerHTML = `Hello ${localStorage.User}`;
+        LoginCheck();
+        const Target = document.getElementById('ComplaintList');
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                let response = JSON.parse(this.responseText);
+                if (response.status == 200) {
+                    response.data.forEach((item) => {
+                        Target.innerHTML += `<div class="complaint"><p><strong>Name:</strong> ${item.name}</p><p><strong>Email:</strong> ${item.email}</p><p><strong>Subject:</strong> ${item.subject}</p><p><strong>Message:</strong> ${item.complaint}</p><p><strong>Response:</strong> ${item.response || '--'}</p><button style="float: right;" type="button" onclick="RemoveComplaint('${item._id}')">Remove</button></div>`
+                    })
+                }
+            }
+        });
+
+        xhr.open("GET", "http://localhost:3000/view/usercomplaint/?id=" + localStorage.Id);
+        xhr.send(null);
+        function RemoveComplaint(id) {
+            if (confirm('Are you sure to remove this complaint?')) {
+                const xhr2 = new XMLHttpRequest();
+                xhr2.withCredentials = true;
+                xhr2.addEventListener("readystatechange", function () {
+                    if (this.readyState === this.DONE) {
+                        let response = JSON.parse(this.responseText);
+                        if (response.status == 200) {
+                            alert("complaint removed")
+                        } else {
+                            alert("Failed to remove")
+                        }
+                    }
+                });
+
+                xhr2.open("POST", "http://localhost:3000/delete/complaint/?id=" + id);
+                xhr2.setRequestHeader("Accept", "*/*");
+                xhr2.setRequestHeader("Content-Type", "application/json");
+                xhr2.send(null);
+            }
+        }
+    </script>
+</body>
+
+</html>

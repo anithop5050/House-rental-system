@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentals</title>
+    <!-- LInk To CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Box Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <style>
+        .reqbtn {
+            padding: 4px 11px;
+            background-color: #ccc;
+            color: #000;
+            border-radius: 2rem;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .reqbtn:hover {
+            background-color: #cdaeae;
+            transform: translateX(-10px);
+            font-weight: bolder;
+            transition: 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="nav container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"> <i class='bx bx-home-smile'></i>alpha rentals</a>
+
+            <a href="usermenu.html" class="btn">Home</a>
+            <p id="username">User</p>
+        </div>
+        <style>
+            .container {
+                text-align: center;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            select {
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                font-size: 16px;
+                width: 200px;
+            }
+        </style>
+    </header>
+    <div class="container">
+        <label for="location">Select your location:</label>
+        <select name="location" id="location" required>
+            <option value="">Select a Location</option>
+            <option value="Kattakada">Kattakada</option>
+            <option value="Varkala">Varkala</option>
+            <option value="Nedumangadu">Nedumangadu</option>
+            <option value="Neyyattinkara">Neyyattinkara</option>
+            <option value="Thrivandram">Thrivandram</option>
+        </select>
+    </div>
+
+    <!-- Properties -->
+    <section class="properties container" id="properties">
+        <div class="heading">
+            <span>Listed Rentals</span>
+            <link rel="stylesheet" href="style.css">
+            <h2>Our Featured Properties</h2>
+            <p> Our Currently Available Premium Spaces Listed Across Kerala</p>
+        </div>
+        <div class="properties-container container" id="HouseData">
+        </div>
+    </section>
+    <script>
+        const AllHouses = []
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                if (localStorage.Type != 'User') window.location = "index.html";
+            } else {
+                window.location = "login.html";
+            }
+            return true;
+        }
+        document.getElementById('username').innerHTML = `Hello ${localStorage.User}`;
+        LoginCheck();
+        const Target = document.getElementById('HouseData');
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                let response = JSON.parse(this.responseText);
+                if (response.status == 200) {
+                    response.data.forEach((item, index) => {
+                        AllHouses.push(item);
+                        if (index > 10) return;
+                        Target.innerHTML += `<div class="box"><a href="/addview.html?id=${item._id}"><img src="/drive/image/${item.image}" alt="${item.image}"></a><button type="button" class="reqbtn" onclick="RequestHouse('${item._id}', '${item.user}')">Request</button><h3>₹${item.price}</h3><div class="content"><div class="text"><h4>${item.title}</h4><span>${item.location}</span> | <span>${item.squareFeet} sqrt</span></div><div class="icon"><i class='bx bx-bed'><span>${item.bedrooms}</span></i><i class='bx bx-bath'><span>${item.bathrooms}</span></i></div></div></div>`;
+                    })
+                }
+            }
+        });
+
+        xhr.open("GET", "http://localhost:3000/view/rental");
+        xhr.send(null);
+        function RequestHouse(id, user) {
+            location.href = 'requestform.html?id='+id+"&owner="+user
+        }
+        document.getElementById('location').onchange = (e) => {
+            FilterAds(e.target.value)
+        }
+        function FilterAds(loc){
+            let filterData;
+            if(!loc) filterData = AllHouses;
+            else filterData = AllHouses.filter(ad=>ad.location==loc);
+            Target.innerHTML = '';
+            filterData.forEach(item=>{
+                Target.innerHTML += `<div class="box"><a href="/addview.html?id=${item._id}"><img src="/drive/image/${item.image}" alt="${item.image}"></a><button type="button" class="reqbtn" onclick="RequestHouse('${item._id}', '${item.user}')">Request</button><h3>₹${item.price}</h3><div class="content"><div class="text"><h4>${item.title}</h4><span>${item.location}</span> | <span>${item.squareFeet} sqrt</span></div><div class="icon"><i class='bx bx-bed'><span>${item.bedrooms}</span></i><i class='bx bx-bath'><span>${item.bathrooms}</span></i></div></div></div>`;
+            })
+        }
+    </script>
+</body>

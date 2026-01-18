@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>House Rental Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select,
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #11f032;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Optional: Style the dropdown arrow */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: url("dropdown_arrow.png") no-repeat right center;
+            background-size: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="nav container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"> <i class='bx bx-home-smile'></i>alpha rentals</a>
+
+            <a href="usermenu.html" class="btn">Home</a>
+            <p id="username">User</p>
+        </div>
+    </header>
+    <br>
+    <hr><br>
+    <h2>House Rental Request Form</h2>
+    <form id="SubmitRequest">
+        <label for="employment_status">Employment Status:</label>
+        <select id="employment_status" name="employment_status" required>
+            <option value="" disabled selected>Select Employment Status</option>
+            <option value="employed">Employed</option>
+            <option value="unemployed">Unemployed</option>
+            <option value="self_employed">Self-Employed</option>
+            <option value="student">Student</option>
+            <option value="retired">Retired</option>
+            <option value="other">Other</option>
+        </select>
+
+        <label for="marital_status">Marital Status:</label>
+        <select id="marital_status" name="marital_status" required>
+            <option value="" disabled selected>Select Marital Status</option>
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+            <option value="divorced">Divorced</option>
+            <option value="widowed">Widowed</option>
+            <option value="separated">Separated</option>
+        </select>
+
+        <label for="num_members">Number of Members Moving In:</label>
+        <input type="number" id="num_members" name="num_members" min="1" max="10" required>
+
+        <label for="car_parking">Car Parking Needed:</label>
+        <input type="radio" id="car_parking_yes" name="car_parking" value="yes" required>
+        <label for="car_parking_yes">Yes</label>
+        <input type="radio" id="car_parking_no" name="car_parking" value="no" required>
+        <label for="car_parking_no">No</label>
+
+        <input type="submit" value="Submit Request">
+    </form><br>
+    <section class="footers">
+        <div class="footer-container container">
+            <h2>α RENTALS</h2>
+
+        </div>
+    </section>
+    <script>
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                if (localStorage.Type != 'User') window.location = "index.html";
+            } else {
+                window.location = "login.html";
+            }
+            return true;
+        }
+        document.getElementById('username').innerHTML = `Hello ${localStorage.User}`;
+        LoginCheck();
+        const urlParams = new URLSearchParams(window.location.search);
+        const HouseId = urlParams.get('id');
+        const OwnerId = urlParams.get('owner');
+        document.getElementById('SubmitRequest').onsubmit = () => {
+            event.preventDefault();
+            let employment_status = document.getElementById('employment_status').value;
+            let marital_status = document.getElementById('marital_status').value;
+            let num_members = document.getElementById('num_members').value;
+            let car_parking_yes = document.getElementById('car_parking_yes').checked;
+            document.getElementById('SubmitRequest').reset()
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    let response = JSON.parse(this.responseText);
+                    if (response.status == 200) {
+                        alert("Request submitted");
+                        location.href = 'search1.html'
+                    }
+                    else {
+                        console.log(response)
+                        alert(response.data);
+                    }
+                }
+            });
+
+            xhr.open("POST", "http://localhost:3000/add/request");
+            xhr.setRequestHeader("Accept", "*/*");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            let data = { "HouseId":HouseId, "JobStatus":employment_status, "LifeStatus":marital_status, "Members":num_members, "CarParking":car_parking_yes, "Requester":localStorage.Id, "HouseOwner":OwnerId };
+            data = JSON.stringify(data);
+            xhr.send(data);
+        }
+    </script>
+</body>
+
+</html>

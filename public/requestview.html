@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .complaint-view {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .complaint-view h2 {
+            text-align: center;
+        }
+
+        .complaint {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .complaint p {
+            margin: 5px 0;
+        }
+
+        .complaint p strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="nav container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><i class='bx bx-home'></i>ALPHA RENTALS</a>
+
+            <a href="usermenu.html" class="btn">Home</a>
+            <p id="username">Hello User</p>
+        </div>
+
+    </header>
+    <hr><br>
+    <div class="complaint-view" id="RequestList">
+        <h2>your Requests Status</h2>
+    </div>
+    <script>
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                if (localStorage.Type != 'User') window.location = "index.html";
+            } else {
+                window.location = "login.html";
+            }
+            return true;
+        }
+        document.getElementById('username').innerHTML = `Hello ${localStorage.User}`;
+        LoginCheck();
+        const Target = document.getElementById('RequestList');
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                let response = JSON.parse(this.responseText);
+                if (response.status == 200) {
+                    response.data.forEach((item) => {
+                        Target.innerHTML += `<div class="complaint"><p><strong>House Name:</strong> ${item.House.title}</p><p><strong>Description:</strong> ${item.House.description}</p><p><strong>Price:</strong> ${item.House.price} per month</p><p><strong>Location:</strong> ${item.House.location}</p><p><strong>Features:</strong> ${item.House.floors} floor ${item.House.squareFeet} square feet House with ${item.House.bedrooms} bedrooms & ${item.House.bathrooms} bathrooms</p><hr><p><strong>Owner Name:</strong> ${item.Owner.name}</p><p><strong>Contact No:</strong> ${item.Owner.number}</p><hr><p><strong>Your Job Status:</strong> ${item.Request.JobStatus}</p><p><strong>Your Life Status:</strong> ${item.Request.LifeStatus}</p><p><strong>Members:</strong> ${item.Request.Members}</p><p><strong>Car Parking:</strong> ${item.Request.CarParking?"Yes":"No"}</p><p><strong>Status:</strong> ${item.Request.Status}</p><button style="float: right;" type="button" onclick="RemoveRequest('${item.Id}')">Remove</button></div>`
+                    })
+                    if(!response.data[0]) Target.innerHTML = `<div class="complaint"><p>No request found</p></div>`
+                }
+            }
+        });
+
+        xhr.open("GET", "http://localhost:3000/view/userrequest/?id=" + localStorage.Id);
+        xhr.send(null);
+        function RemoveRequest(id) {
+            if (confirm('Are you sure to remove this request?')) {
+                const xhr2 = new XMLHttpRequest();
+                xhr2.withCredentials = true;
+                xhr2.addEventListener("readystatechange", function () {
+                    if (this.readyState === this.DONE) {
+                        let response = JSON.parse(this.responseText);
+                        if (response.status == 200) {
+                            alert("request removed")
+                        } else {
+                            alert("Failed to remove")
+                        }
+                    }
+                });
+
+                xhr2.open("POST", "http://localhost:3000/delete/request/?id=" + id);
+                xhr2.setRequestHeader("Accept", "*/*");
+                xhr2.setRequestHeader("Content-Type", "application/json");
+                xhr2.send(null);
+            }
+        }
+    </script>
+</body>
+
+</html>

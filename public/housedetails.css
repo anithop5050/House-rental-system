@@ -1,0 +1,15 @@
+
+    /* CSS styles for better presentation */
+    .house-details {
+      margin-bottom: 50px;
+    }
+    .house-image {
+      max-width: 300px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    .location {
+      font-style: italic;
+      color: #999;
+    }
+

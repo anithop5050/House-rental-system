@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- LInk To CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Box Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="dropdown.css">
+    <title>House Rental Ad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .property-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .property-info label {
+            font-weight: bold;
+        }
+
+        .property-info span {
+            margin-left: 10px;
+        }
+
+        .description {
+            margin-top: 20px;
+        }
+
+        .description p {
+            line-height: 1.6;
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .image-gallery img {
+            width: 80%;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav container">
+        <!-- Logo -->
+        <a href="index.html" class="logo"><i class='bx bx-home'></i>ALPHA RENTALS</a>
+        <a href="/usermenu.html" class="btn">Home</a>
+        <p id="username">Hello User</p>
+    </div>
+    </div>
+    </header>
+
+    <main>
+        <div class="property-info">
+            <label>Title:</label>
+            <span id="title">Loading...</span>
+        </div>
+
+        <div class="property-info">
+            <label>Total Square Feet:</label>
+            <span id="sqrt">Loading...</span>
+        </div>
+
+        <div class="property-info">
+            <label>Number of Floors:</label>
+            <span id="floor">0</span>
+        </div>
+
+        <div class="property-info">
+            <label>Number of Bedrooms:</label>
+            <span id="room">0</span>
+        </div>
+
+        <div class="property-info">
+            <label>Number of Bathrooms:</label>
+            <span id="bath">0</span>
+        </div>
+
+        <div class="property-info">
+            <label>Location:</label>
+            <span id="loc">Loading...</span>
+        </div>
+
+        <div class="property-info">
+            <label>Price:</label>
+            <span id="price">Loading...</span>
+        </div>
+
+        <div class="description">
+            <h3>Description:</h3>
+            <p id="desc">Loading...</p>
+        </div>
+
+        <div class="image-gallery">
+            <img id="img" src="" alt="Loading...">
+        </div>
+    </main>
+    <section class="footer">
+        <div class="footer-container container">
+            <h2>α RENTALS</h2>
+
+            <div class="footer-box">
+                <h3>Locations</h3>
+                <a href="http://surl.li/hloqf">Trivandrum</a>
+                <a href="http://surl.li/hlopz">Ernakulam</a>
+                <a href="http://surl.li/hlopb">Kollam</a>
+            </div>
+            <div class="footer-box">
+                <h3>Contact</h3>
+                <a href="tel:9633528256">9633528256</a>
+                <a href="mailto:alpharent12345@gmail.com">Send Email</a>
+            </div>
+            <div class="social">
+                <a href="https://www.facebook.com/"><i class='bx bxl-facebook'></i></a>
+                <a href="https://twitter.com/i/flow/login/"><i class='bx bxl-twitter'></i></a>
+                <a href="https://www.instagram.com/"><i class='bx bxl-instagram'></i></a>
+            </div>
+        </div>
+    </section>
+    <div class="copyright">
+        <p>&#169; DARB All Right Reserved</p>
+        <p style="color:white">SINCE 2023</p>
+    </div>
+    <script>
+        const AllHouses = []
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                if (localStorage.Type != 'User') window.location = "index.html";
+            } else {
+                window.location = "login.html";
+            }
+            return true;
+        }
+        document.getElementById('username').innerHTML = `Hello ${localStorage.User}`;
+        LoginCheck();
+        const urlParams = new URLSearchParams(window.location.search);
+        const HouseId = urlParams.get('id');
+        if(!HouseId) window.history.back();
+        console.log(HouseId);
+        const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    let response = JSON.parse(this.responseText);
+                    if (response.status == 200) {
+                        document.getElementById('title').innerHTML = response.data.title;
+                        document.getElementById('price').innerHTML = '$'+response.data.price+'/month';
+                        document.getElementById('desc').innerHTML = response.data.description;
+                        document.getElementById('sqrt').innerHTML = response.data.squareFeet+' sqft';
+                        document.getElementById('floor').innerHTML = response.data.floors;
+                        document.getElementById('room').innerHTML = response.data.bedrooms;
+                        document.getElementById('bath').innerHTML = response.data.bathrooms;
+                        document.getElementById('loc').innerHTML = response.data.location;
+                        document.getElementById('img').src = '/drive/image/'+response.data.image;
+                        document.getElementById('img').alt = response.data.image;
+                    }
+                    else {
+                        window.history.back();
+                    }
+                }
+            });
+
+            xhr.open("GET", "http://localhost:3000/view/rentalbyid/?id="+HouseId);
+            xhr.setRequestHeader("Accept", "*/*");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(null);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentals</title>
+    <!-- LInk To CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Box Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <style>
+        .reqbtn {
+            padding: 4px 11px;
+            background-color: #ccc;
+            color: #000;
+            border-radius: 2rem;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .reqbtn:hover {
+            background-color: #cdaeae;
+            transform: translateX(-10px);
+            font-weight: bolder;
+            transition: 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Properties -->
+    <section class="properties container" id="properties">
+        <div class="heading">
+            <span>Listed Rentals</span>
+        </div>
+        <div class="properties-container container" id="HouseData">
+        </div>
+    </section>
+    <script>
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                if (localStorage.Type != 'Admin') window.location = "usermenu.html";
+            } else {
+                window.location = "admin-login.html";
+            }
+            return true;
+        }
+        LoginCheck();
+        const Target = document.getElementById('HouseData');
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                let response = JSON.parse(this.responseText);
+                if (response.status == 200) {
+                    response.data.forEach((item, index) => {
+                        Target.innerHTML += `<div class="box"><img src="/drive/image/${item.image}" alt="${item.image}"><button type="button" class="reqbtn" onclick="DeteleAd('${item._id}')">Remove</button><h3>₹${item.price}</h3><div class="content"><div class="text"><h4>${item.title}</h4><span>${item.location}</span> | <span>${item.squareFeet} sqrt</span></div><div class="icon"><i class='bx bx-bed'><span>${item.bedrooms}</span></i><i class='bx bx-bath'><span>${item.bathrooms}</span></i></div></div></div>`;
+                    })
+                }
+            }
+        });
+
+        xhr.open("GET", "http://localhost:3000/view/rental");
+        xhr.send(null);
+        function DeteleAd(id) {
+            const xhr2 = new XMLHttpRequest();
+            xhr2.withCredentials = true;
+            xhr2.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    let response = JSON.parse(this.responseText);
+                    if (response.status == 200) {
+                        alert("Deleted sucessfully")
+                        location.reload()
+                    } else {
+                        alert("failed to delete")
+                    }
+                }
+            });
+            xhr2.open("POST", "http://localhost:3000/delete/userrental");
+            xhr2.setRequestHeader("Accept", "*/*");
+            xhr2.setRequestHeader("Content-Type", "application/json");
+            xhr2.send(JSON.stringify({ "id": id }));
+        }
+    </script>
+</body>

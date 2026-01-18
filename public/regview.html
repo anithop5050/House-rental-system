@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    .complaint-view {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .complaint-view h2 {
+      text-align: center;
+    }
+
+    .complaint {
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .complaint p {
+      margin: 5px 0;
+    }
+
+    .complaint p strong {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body> 
+  <div class="complaint-view" id="ComplaintList">
+    <h2>Complaint Details</h2>
+  </div>
+  <script>
+    const LoginCheck = () => {
+      if (localStorage.Status == "loggined") {
+        if (localStorage.Type != 'Admin') window.location = "usermenu.html";
+      } else {
+        window.location = "admin-login.html";
+      }
+      return true;
+    }
+    LoginCheck();
+    const Target = document.getElementById('ComplaintList');
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.addEventListener("readystatechange", function () {
+      if (this.readyState === this.DONE) {
+        let response = JSON.parse(this.responseText);
+        if (response.status == 200) {
+          response.data.forEach((item) => {
+            Target.innerHTML += `<div class="complaint"><p><strong>Name:</strong> ${item.name}</p><p><strong>Email:</strong> ${item.email}</p><p><strong>Subject:</strong> ${item.subject}</p><p><strong>Message:</strong> ${item.complaint}</p><p><strong>Response:</strong> ${item.response || '--'}</p><button style="float: right;" type="button" class="btn" onclick="AddResponse('${item._id}')">Add response</button></div>`
+          })
+        }
+      }
+    });
+
+    xhr.open("GET", "http://localhost:3000/view/complaint");
+    xhr.send(null);
+    function AddResponse(id) {
+      if (id) {
+        const response = prompt('Enter the response');
+        if (response != null && response) {
+          if (confirm('Are you sure to replay with the response: ' + response)) {
+            const xhr2 = new XMLHttpRequest();
+            xhr2.withCredentials = true;
+            xhr2.addEventListener("readystatechange", function () {
+              if (this.readyState === this.DONE) {
+                let response = JSON.parse(this.responseText);
+                if (response.status == 200) {
+                  alert("Response updated")
+                }else{
+                  alert("Failed to update")
+                }
+              }
+            });
+
+            xhr2.open("PUT", "http://localhost:3000/update/complaint/?id="+id);
+            xhr2.setRequestHeader("Accept", "*/*");
+            xhr2.setRequestHeader("Content-Type", "application/json");
+            const data = JSON.stringify({"response": response});
+            xhr2.send(data);
+          }
+        } else if (response != null) {
+          AddResponse(id)
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

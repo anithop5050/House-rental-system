@@ -1,0 +1,30 @@
+
+.containers{
+	width 100%;
+	height 100vh;
+	background: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+form{
+	background: white;
+	width: 600px;
+	height:55px; 
+	display: flex;
+}
+form input{
+	flex: 1;
+	border: 1;
+	outline: none;
+}
+form button{
+	background:#22F800  ;
+	padding: 1opx 50px;
+	border: none;
+	outline: none;
+	color: white;
+	letter-spacing: 1px;
+	cursor: pointer;
+	
+

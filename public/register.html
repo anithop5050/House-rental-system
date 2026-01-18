@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <!-- LInk To CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Box Icons -->
+    <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+  
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="nav container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><i class='bx bx-home-smile'></i></i>ALPHA RENTALS</a>
+        </div>
+
+    </header>
+    <!-- Sign Up -->
+    <div class="login container">
+        <div class="login-container">
+       
+            <h2>Welcome Let's get started</h2>
+            <p>Already have account <a href="login.html">Log In</a></p>
+            <!-- Login Form -->
+            <form id="registerform">
+                <span>Name</span>
+                <input type="text" name="name" id="name" placeholder="Your Name" required>
+                <span>Email address</span>
+                <input type="email" name="email" id="email" placeholder="yourmail@gmail.com" required>
+                <span>Phone</span>
+                <input type="tel" name="tel" id="tel" placeholder="Enter your number" required>
+                <span>Enter your password</span>
+                <input type="password" name="pass" id="pass" placeholder="At least 8" required>
+				   <span>Confirm password</span>
+                   <input type="password" name="pass2" id="pass2" required>
+                <input type="submit" value="Sign Up" class="buttom">
+                <a href="login.html">Already have account</a>
+            </form>
+            <a href="login.html" class="btn">Log In</a>
+        </div>
+        <!-- Log In Image -->
+        <div class="login-image">
+            <img src="img/signup logo.jpg" alt="">
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <section class="footer">
+        <div class="footer-container container">
+            <h2>α RENTALS</h2>
+           
+            <div class="footer-box">
+                <h3>Locations</h3>
+                <a href="http://surl.li/hloqf">Trivandrum</a>
+                <a href="http://surl.li/hlopz">Ernakulam</a>
+                <a href="http://surl.li/hlopb">Kollam</a>
+            </div>
+            <div class="footer-box">
+                <h3>Contact</h3>
+                 <a href="tel:9633528256">9633528256</a>
+				 <a href="mailto:alpharent@gmail.com">Send Email</a>
+				 </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- Copyright -->
+    <div class="copyright">
+        <p>&#169; DARB All Right Reserved</p>
+    </div>
+	<script>
+        document.getElementById('registerform').onsubmit = () => {
+            event.preventDefault();
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let number = document.getElementById('tel').value;
+            let password = document.getElementById('pass').value;
+            let password2 = document.getElementById('pass2').value;
+            if (!email) return alert('Enter a email to signup');
+            if (!password) return alert('Enter a password to signup');
+            if (password!= password2) return alert('Passwords do not match');
+            if(!name) return alert('Enter your name to signup');
+            if(!number) return alert('Enter your number to signup');
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    let response = JSON.parse(this.responseText);
+                    if (response.status == 200) {
+                        alert("Registration complete. login to continue");
+                    }
+                    else {
+                        console.log(response)
+                        alert("Error on register");
+                    }
+                }
+            });
+
+            xhr.open("POST", "http://localhost:3000/signup/user");
+            xhr.setRequestHeader("Accept", "*/*");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            let data = {"name":name, "email":email, "number":number, "password":password};
+            data = JSON.stringify(data);
+            xhr.send(data);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="dropdown.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .containers {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1be01b;
+            margin-bottom: 20px;
+        }
+
+        .ads-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .ad-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .ad-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .ad-description {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .ad-price {
+            color: #1be01b;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .ad-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .ad-location {
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="nav container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><i class='bx bx-home'></i>ALPHA RENTALS</a>
+
+            <a href="usermenu.html" class="btn">Home</a>
+            <p id="username">Hello User</p>
+        </div>
+
+    </header>
+    <hr><br>
+    <div class="containers">
+        <h2>View Uploaded Ads</h2>
+        <div class="ads-container" id="HouseData">
+            <div class="ad-card">
+                <h3 class="ad-title">Loading...</h3>
+            </div>
+        </div>
+    </div>
+    <script>
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                if (localStorage.Type != 'User') window.location = "index.html";
+            } else {
+                window.location = "login.html";
+            }
+            return true;
+        }
+        document.getElementById('username').innerHTML = `Hello ${localStorage.User}`;
+        LoginCheck();
+        const Target = document.getElementById('HouseData');
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                let response = JSON.parse(this.responseText);
+                if (response.status == 200) {
+                    if (response.data[0]) {
+                        Target.innerHTML = '';
+                        response.data.forEach((item) => {
+                            Target.innerHTML += `<div class="ad-card"><img src="/drive/image/${item.image}" alt="${item.image}" class="ad-image"><h3 class="ad-title">${item.title}</h3><p class="ad-description">${item.description}</p><p class="ad-price">$${item.price} per month</p><p class="ad-location">${item.location}</p><br><button type="button" class="btn" onclick="DeteleAd('${item._id}')">Delete</button></div>`;
+                        })
+                    } else {
+                        Target.innerHTML = '<div class="ad-card"><h3 class="ad-title">You dont have any ads</h3></div>'
+                    }
+                }
+            }
+        });
+        xhr.open("GET", "http://localhost:3000/view/userrental/?id=" + localStorage.Id);
+        xhr.setRequestHeader("Accept", "*/*");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(null);
+        function DeteleAd(id) {
+            const xhr2 = new XMLHttpRequest();
+            xhr2.withCredentials = true;
+            xhr2.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    let response = JSON.parse(this.responseText);
+                    if (response.status == 200) {
+                        alert("Deleted sucessfully")
+                        location.reload()
+                    } else {
+                        alert("failed to delete")
+                    }
+                }
+            });
+            xhr2.open("POST", "http://localhost:3000/delete/userrental");
+            xhr2.setRequestHeader("Accept", "*/*");
+            xhr2.setRequestHeader("Content-Type", "application/json");
+            xhr2.send(JSON.stringify({ "id": id }));
+        }
+    </script>
+</body>
+
+</html>

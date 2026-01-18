@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>User List</title>
+  <style>
+    /* Internal CSS */
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>User List</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>S.no</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <!-- Add more columns as needed -->
+      </tr>
+    </thead>
+    <tbody id="userlist">
+      
+    </tbody>
+  </table>
+  <script>
+    const LoginCheck = () => {
+      if (localStorage.Status == "loggined") {
+        if (localStorage.Type != 'Admin') window.location = "usermenu.html";
+      } else {
+        window.location = "admin-login.html";
+      }
+      return true;
+    }
+    LoginCheck();
+    const Target = document.getElementById('userlist');
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.addEventListener("readystatechange", function () {
+      if (this.readyState === this.DONE) {
+        let response = JSON.parse(this.responseText);
+        if (response.status == 200) {
+          response.data.forEach((item, index) => {
+            Target.innerHTML += `<tr><td>${index +1}</td><td>${item._id}</td><td>${item.name}</td><td>${item.email}</td></tr>`
+          })
+        }
+      }
+    });
+
+    xhr.open("GET", "http://localhost:3000/list/users");
+    xhr.send(null);
+  </script>
+</body>
+
+</html>

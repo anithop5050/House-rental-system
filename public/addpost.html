@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="US-en">
+
+<head>
+    <title>House Rental System</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <!-- LInk To CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Box Icons -->
+    <link rel="stylesheet" href="new style2.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+</head>
+
+<body> 
+    <!-- Navbar -->
+    <header>
+        <div class="nav container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><i class='bx bx-home'></i>ALPHA RENTALS</a>
+
+            <a href="usermenu.html" class="btn">Home</a>
+            <p id="username">Hello User</p>
+        </div>
+
+    </header>
+    <!-- Log In -->
+    <h1>&nbsp Post a House Rental Ad</h1>
+
+    <div class="add-container">
+        <form id="addpost" enctype="multipart/form-data">
+            <label for="title">&nbsp Title:</label><br>
+            <input type="text" id="title" name="title" required><br><br>
+
+            <label for="squareFeet">Total Square Feet:</label><br>
+            <input type="number" id="squareFeet" name="squareFeet" required><br><br>
+
+            <label for="floors">Number of Floors:</label><br>
+            <input type="number" id="floors" name="floors" required><br><br>
+
+            <label for="bedrooms">Number of Bedrooms:</label><br>
+            <input type="number" id="bedrooms" name="bedrooms" required><br><br>
+
+            <label for="bathrooms">Number of Bathrooms:</label><br>
+            <input type="number" id="bathrooms" name="bathrooms" required><br><br>
+
+            <label for="location">Location:</label><br>
+            <select name="location" id="location" required>
+                <option value="">Select a Location</option>
+                <option value="Kattakada">Kattakada</option>
+                <option value="Varkala">Varkala</option>
+                <option value="Nedumangadu">Nedumangadu</option>
+                <option value="Neyyattinkara">Neyyattinkara</option>
+                <option value="Thrivandram">Thrivandram</option>
+            </select><br><br>
+
+            <label for="price">Price:</label><br>
+            <input type="number" id="price" name="price" required><br><br>
+
+            <label for="description">Description:</label><br>
+            <textarea name="description" id="description" cols="10" rows="3"></textarea>
+
+            <label for="image">Upload Image:</label><br>
+            <input type="file" id="image" name="image" accept="image/*" required><br><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <!-- Footer -->
+    <section class="footer">
+        <div class="footer-container container">
+            <h2>α RENTALS</h2>
+            <div class="footer-box">
+                <h3>Quick Links</h3>
+                <a href="#">Agency</a>
+                <a href="#">Building</a>
+                <a href="#">Rates</a>
+            </div>
+            <div class="footer-box">
+                <h3>Locations</h3>
+                <a href="#">Trivandrum</a>
+                <a href="#">Ernakulam</a>
+                <a href="#">Kollam</a>
+            </div>
+            <div class="footer-box">
+                <h3>Contact</h3>
+                <a href="#">9633528256</a>
+                <a href="#">alpharent@gmail.com</a>
+                <div class="social">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-twitter'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Copyright -->
+    <div class="copyright">
+        <p>&#169; DARB All Right Reserved</p>
+    </div>
+    <script>
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                if (localStorage.Type != 'User') window.location = "index.html";
+            } else {
+                window.location = "login.html";
+            }
+            return true;
+        }
+        document.getElementById('username').innerHTML = `Hello ${localStorage.User}`;
+        LoginCheck();
+        document.getElementById('addpost').onsubmit = () => {
+            event.preventDefault();
+            let title = document.getElementById('title').value;
+            let squareFeet = document.getElementById('squareFeet').value;
+            let floors = document.getElementById('floors').value;
+            let bedrooms = document.getElementById('bedrooms').value;
+            let bathrooms = document.getElementById('bathrooms').value;
+            let location = document.getElementById('location').value;
+            let description = document.getElementById('description').value;
+            let price = document.getElementById('price').value;
+            let image = document.getElementById('image').files[0];
+            if (!image.type.includes('image')) return alert('Please select a image');
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    let response = JSON.parse(this.responseText);
+                    if (response.status == 200) {
+                        alert("Added sucessfully");
+                        window.location.href = "usermenu.html"
+                    }
+                    else {
+                        alert("Failed to add");
+                    }
+                }
+            });
+
+            xhr.open("POST", "http://localhost:3000/add/rental");
+            const data = new FormData();
+            data.append('title', title);
+            data.append('squareFeet', squareFeet);
+            data.append('floors', floors);
+            data.append('bedrooms', bedrooms);
+            data.append('bathrooms', bathrooms);
+            data.append('location', location);
+            data.append('description', description);
+            data.append('price', price);
+            data.append('user', localStorage.Id);
+            data.append('pic', image);
+            data.append('image', image.name);
+            xhr.send(data);
+        }
+
+    </script>
+</body>
+
+</html>

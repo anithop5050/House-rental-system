@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <!-- LInk To CSS -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Box Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+  <style>
+    .admin-panel {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 450px;
+      background-color: #f1f1f1;
+      padding: 15px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar li {
+      margin-bottom: 40px;
+    }
+
+    .sidebar li a {
+      display: block;
+      padding: 20px;
+      text-decoration: none;
+      color: black;
+    }
+
+    .sidebar li a:hover {
+      background-color:#22F800;
+	  border-radius: 2rem;
+    }
+
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+      background-color: #fff;
+    }
+
+    .content h1 {
+      margin-bottom: 10px;
+    }
+
+    .content p {
+      line-height: 1.5;
+    }
+  </style>
+   <meta charset="UTF-8">
+       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="admin-panel">
+    <div class="sidebar">
+      <center><h2>ADMIN PANEL</h2></center>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="userlist.html">Users</a></li>
+        <li><a href="adlist.html">Rental</a></li>
+        <li><a href="regview.html">Complaints</a></li>
+        <li><a href="logout.html">Log Out</a></li>
+      </ul>
+    </div>
+    <div class="content">
+      <center><h1>ADMIN LOGGED IN</h1></center>
+      <p></p>
+    </div>
+	<div class="administrator">
+            <img src="img/administrator.png" alt="" height="150px">
+        </div>
+  </div>
+  <section class="footer">
+        <div class="footer-container container">
+            <h2>α RENTALS</h2>
+            <div class="footer-box">
+                <h3>Locations</h3>
+                <a href="http://surl.li/hloqf">Trivandrum</a>
+                <a href="http://surl.li/hlopz">Ernakulam</a>
+                <a href="http://surl.li/hlopb">Kollam</a>
+            </div>
+            <div class="footer-box">
+                <h3>Contact</h3>
+                <a href="tel:9633528256">9633528256</a>
+                <a href="mailto:alpharent12345@gmail.com">Send Email</a>
+            </div>
+            <div class="social">
+                <a href="https://www.facebook.com/"><i class='bx bxl-facebook'></i></a>
+                <a href="https://twitter.com/i/flow/login/"><i class='bx bxl-twitter'></i></a>
+                <a href="https://www.instagram.com/"><i class='bx bxl-instagram'></i></a>
+            </div>
+            </div>
+        </div>
+    </section>
+	 <div class="copyright">
+        <p>&#169; DARB All Right Reserved</p>
+    </div>
+  <script>
+    const LoginCheck = () => {
+      if (localStorage.Status == "loggined") {
+        if (localStorage.Type != 'Admin') window.location = "usermenu.html";
+      }else{
+        window.location = "admin-login.html";
+      }
+      return true;
+    }
+    LoginCheck();
+  </script>
+</body>
+
+</html>

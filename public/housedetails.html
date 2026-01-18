@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>House Rental System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="housedetails.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <header>
+        <div class="nav container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><i class='bx bx-home'></i>ALPHA RENTALS</a>
+            <a href="/" class="btn">Home</a>
+            <p id="username">Hello User</p>
+        </div>
+
+    </header>
+    <div id="HouseData"></div>
+    <section class="footer">
+        <div class="footer-container container">
+            <h2>α RENTALS</h2>
+            <div class="footer-box">
+                <h3>Quick Links</h3>
+                <a href="#">Agency</a>
+                <a href="#">Building</a>
+                <a href="#">Rates</a>
+            </div>
+            <div class="footer-box">
+                <h3>Locations</h3>
+                <a href="#">Trivandrum</a>
+                <a href="#">Ernakulam</a>
+                <a href="#">Kollam</a>
+            </div>
+            <div class="footer-box">
+                <h3>Contact</h3>
+                <a href="#">9633528256</a>
+                <a href="#">alpharent@gmail.com</a>
+                <div class="social">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-twitter'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="copyright">
+        <p>&#169; DARB All Right Reserved</p>
+    </div>
+    <script>
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                if (localStorage.Type != 'User') window.location = "index.html";
+            } else {
+                window.location = "login.html";
+            }
+            return true;
+        }
+        document.getElementById('username').innerHTML = `Hello ${localStorage.User}`;
+        LoginCheck();
+        const Target = document.getElementById('HouseData');
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                let response = JSON.parse(this.responseText);
+                if (response.status == 200) {
+                    response.data.forEach((item) => {
+                        Target.innerHTML += `<div class="house-details"><h1>${item.title}</h1><p>squareFeet: ${item.squareFeet}</p><p>Number of Bathrooms: ${item.bathrooms}</p><p>Number of Bedrooms: ${item.bedrooms}</p><img class="house-image" src="/drive/image/${item.image}" alt="${item.image}"><p class="location">Location: ${item.location}</p></div>`
+                    })
+                }
+            }
+        });
+
+        xhr.open("GET", "http://localhost:3000/view/rental");
+        xhr.send(null);
+    </script>
+</body>
+
+</html>

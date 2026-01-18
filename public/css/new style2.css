@@ -1,0 +1,73 @@
+/* Body styles */
+body {
+  font-family: "poppins",sans-serif;
+  background-color: white;
+  margin: 20px;
+  padding: 10px;
+}
+
+/* Header styles */
+header {
+  text-align: right;
+  margin-bottom: 50px;
+}
+
+header h1 {
+  color: black;
+  font-size: 20px;
+}
+
+/* Main content styles */
+main {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form styles */
+form {
+  max-width: 500px;
+  margin: auto;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  font-weight: medium;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+input[type="submit"] {
+  background-color:#22F800 ;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color:blue;
+}
+
+/* Footer styles */
+footer {
+  text-align: center;
+  color:#22F800;
+  font-size: 15px;
+  margin-top: 20px;
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Rentals</title>
+    <!-- LInk To CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Box Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="dropdown.css">
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="nav container">
+            <!-- Logo -->
+            <a href="" class="logo"><i class='bx bx-home-smile'></i> alpha rentals</a>
+            <!-- Menu Icon -->
+            <input type="checkbox" name="" id="menu">
+            <label for="menu" <i class='bx bx-menu' id="menu-icon"></i></label>
+            <!-- Nav List -->
+            <ul class="navbar">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a id="rental" href="search1.html">Rentals</a></li>
+                <li><a id="login" href="login.html">Login</a></li>
+                <li><a id="register" href="register.html">Register</a></li>
+            </ul>
+    </header>
+    <!-- Home -->
+    <section class="home container" id="home">
+        <div class="home-text">
+            <h1>Find Your Next <br>Perfect Place To <br>Live.</h1>
+        </div>
+    </section>
+    <!-- About -->
+    <section class="about container" id="about">
+        <div class="about-img">
+            <img src="img/ekm1.jpg" alt="">
+        </div>
+        <div class="about-text">
+            <span>About Us</span>
+            <h2>We Provide The Best <br>Property For You !</h2>
+            <p>We Are The Best House Rental Website That Aims To Provide The Best Services For The Needy<br></p>
+            <p>Your House Defines Your Family<br></p>
+            <p>Thank you very much. Pleasure!</p>
+        </div>
+    </section>
+    <!-- Sales -->
+    <section class="sales container" id="sales">
+        <!-- Box 1 -->
+        <div class="box">
+            <i class='bx bx-home'></i>
+            <h3>Changing The Way Kerala Experiences Property</h3>
+            <p>We Provide The Best House For You</p>
+        </div>
+        <!-- Box 2 -->
+        <div class="box">
+            <i class='bx bx-street-view'></i>
+            <h3>Start Your Journy With Us </h3>
+            <p>We Have Rented More Than 1000 House Across Kerala</p>
+        </div>
+        <!-- Box 1 -->
+        <div class="box">
+            <i class='bx bx-home-alt'></i>
+            <h3>Our Mission</h3>
+            <p>To Be The First Choice Of Our Customers In Renting A Home </p>
+        </div>
+    </section>
+    <!-- Footer -->
+    <section class="footer">
+        <div class="footer-container container">
+            <h2>α RENTALS</h2>
+
+            <div class="footer-box">
+                <h3>Locations</h3>
+                <a href="http://surl.li/hloqf">Trivandrum</a>
+                <a href="http://surl.li/hlopz">Ernakulam</a>
+                <a href="http://surl.li/hlopb">Kollam</a>
+            </div>
+            <div class="footer-box">
+                <h3>Contact</h3>
+                <a href="tel:9633528256">9633528256</a>
+                <a href="mailto:alpharent12345@gmail.com">Send Email</a>
+            </div>
+            <div class="social">
+                <a href="https://www.facebook.com/"><i class='bx bxl-facebook'></i></a>
+                <a href="https://twitter.com/i/flow/login/"><i class='bx bxl-twitter'></i></a>
+                <a href="https://www.instagram.com/"><i class='bx bxl-instagram'></i></a>
+            </div>
+
+        </div>
+    </section>
+    <!-- Copyright -->
+    <div class="copyright">
+        <p>&#169; DARB All Right Reserved</p>
+        <p style="color:white">SINCE 2023</p>
+    </div>
+    <script>
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                document.getElementById('register').href = 'logout.html'
+                document.getElementById('register').innerHTML = 'Logout'
+                if(localStorage.Type == "User"){
+                    document.getElementById('login').href = 'usermenu.html'
+                    document.getElementById('login').innerHTML = 'User Menu'
+                }else{
+                    document.getElementById('login').href = 'admin.html'
+                    document.getElementById('login').innerHTML = 'Admin Menu'
+                    document.getElementById('rental').href = 'adlist.html'
+                }
+                
+            } else {
+
+            }
+            return true;
+        }
+        LoginCheck();
+    </script>
+
+</body>
+
+</html>

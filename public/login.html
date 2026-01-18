@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <!-- LInk To CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Box Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="nav container">
+            <!-- Logo -->
+            <a href="index.html" class="logo"><i class='bx bx-home-smile'></i>ALPHA RENTALS</a>
+
+            <!-- Log In Button -->
+            <a href="register.html" class="btn">Sign Up</a>
+        </div>
+
+    </header>
+    <!-- Log In -->
+    <div class="login container">
+        <div class="login-container">
+            <h2>USER LOGIN</h2>
+            <!-- Login Form -->
+            <form id="loginform">
+                <span>Enter your email address</span>
+                <input type="email" name="email" id="email" placeholder="yourmail@gmail.com" required>
+                <span>Enter your password</span>
+                <input type="password" name="pass" id="pass" placeholder="Password" required>
+                <input type="submit" value="Log In" class="buttom">
+                <a href="#">Forget Password?</a>
+            </form>
+            <a href="register.html" class="btn">Sign up now</a>
+        </div>
+        <!-- Log In Image -->
+        <div class="login-image">
+            <img src="img/login2.jpg" alt="">
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <section class="footer">
+        <div class="footer-container container">
+            <h2>α RENTALS</h2>
+            <div class="footer-box">
+            </div>
+            <div class="footer-box">
+                <h3>Locations</h3>
+                <a href="http://surl.li/hloqf">Trivandrum</a>
+                <a href="http://surl.li/hlopz">Ernakulam</a>
+                <a href="http://surl.li/hlopb">Kollam</a>
+            </div>
+            <div class="footer-box">
+                <h3>Contact</h3>
+                <a href="tel:9633528256">9633528256</a>
+                <a href="mailto:alpharent@gmail.com">Send Email</a>
+            </div>
+
+            <div class="social">
+                <a href="https://www.facebook.com/"><i class='bx bxl-facebook'></i></a>
+                <a href="https://twitter.com/i/flow/login/"><i class='bx bxl-twitter'></i></a>
+                <a href="https://www.instagram.com/"><i class='bx bxl-instagram'></i></a>
+            </div>
+        </div>
+        </div>
+    </section>
+    <!-- Copyright -->
+    <div class="copyright">
+        <p>&#169; DARB All Right Reserved</p>
+    </div>
+
+    <script>
+        document.getElementById('loginform').onsubmit = () => {
+            event.preventDefault();
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('pass').value;
+            if (!email) return alert('Enter a email to login');
+            if (!password) return alert('Enter a password to login');
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = true;
+            xhr.addEventListener("readystatechange", function () {
+                if (this.readyState === this.DONE) {
+                    let response = JSON.parse(this.responseText);
+                    if (response.status == 200) {
+                        localStorage.Status = "loggined";
+                        localStorage.User = response.user.name;
+                        localStorage.Type = "User";
+                        localStorage.Id = response.user._id;
+                        window.location = "usermenu.html";
+                    }
+                    else {
+                        alert("invalid user details");
+                    }
+                }
+            });
+
+            xhr.open("POST", "http://localhost:3000/login/user");
+            xhr.setRequestHeader("Accept", "*/*");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            let data = { "email": email, "password": password };
+            data = JSON.stringify(data);
+            xhr.send(data);
+        }
+        const LoginCheck = () => {
+            if (localStorage.Status == "loggined") {
+                window.location = "usermenu.html";
+            }
+            return true;
+        } 
+        LoginCheck();
+    </script>
+</body>
+
+</html>
