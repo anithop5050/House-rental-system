@@ -30,7 +30,18 @@ const locations = [
     "Kazhakkoottam"
 ];
 
-const images = ["img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg", "img5.jpg", "img6.jpg"];
+const images = [
+    "house1.jpg",
+    "house2.jpg",
+    "house3.jpg",
+    "house4.jpg",
+    "house5.jpg",
+    "house6.jpg",
+    "ekm1.jpg",
+    "klm1.jpg",
+    "khm3.jpg",
+    "tvm3.jpg"
+];
 
 const dummyUsers = [
     { name: "John Doe", email: "john@example.com", password: "password123", number: "9876543210" },
